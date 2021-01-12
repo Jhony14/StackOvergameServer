@@ -43,7 +43,6 @@ INSTALLED_APPS = [
 
 ]
 
-# Antiguamente se usaba CORS_ORIGIN_ALLOW_ALL
 CORS_ALLOW_ALL_ORIGINS = True
 
 MIDDLEWARE = [
