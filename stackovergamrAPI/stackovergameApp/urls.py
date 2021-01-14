@@ -23,6 +23,9 @@ urlpatterns = [
     url(r'^valoracioncomentarios/$', views.valoracioncomentariosApi),
     url(r'^valoracioncomentarios/([0-9]+)$', views.valoracioncomentariosApi),
 
-    url(r'^savefile$', views.SaveFile)
+    url(r'^savefile$', views.SaveFile),
+
+    url(r'^login/$', views.login),
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
