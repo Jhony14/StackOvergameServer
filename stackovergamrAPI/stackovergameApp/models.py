@@ -21,8 +21,8 @@ class Usuario(models.Model):
     UsuarioValidado = models.BooleanField()
     UsuarioActivo = models.BooleanField()
     UsuarioFechaCreacion = models.DateField()
-    UsuarioProfilePicture = models.FileField(
-        upload_to='media/profile_picture', blank=True, null=True)
+    # Profile picture para almacenar la ruta que se guardara en disco
+    UsuarioProfilePicture = models.CharField(max_length=255)
     UsuarioTipousuarioId = models.IntegerField()
 
 
@@ -40,8 +40,8 @@ class Imagenespost(models.Model):
     ImagenespostId = models.AutoField(primary_key=True)
     ImagenespostNombre = models.CharField(max_length=255)
     ImagenespostTipo = models.CharField(max_length=50)
-    ImagenespostArchivo = models.FileField(
-        upload_to='media/post_picture', blank=True, null=True)
+    # para almacenar la ruta que se guardara en disco
+    ImagenespostArchivo = models.CharField(max_length=255)
     ImagenespostPostId = models.IntegerField(null=True)
 
 
@@ -59,17 +59,19 @@ class Imagenescomentarios(models.Model):
     ImagenescomentariosId = models.AutoField(primary_key=True)
     ImagenescomentariosNombre = models.CharField(max_length=255)
     ImagenescomentariosTipo = models.CharField(max_length=50)
-    ImagenescomentariosArchivo = models.FileField(
-        upload_to='media/comentarios_picture', blank=True, null=True)
+    # para almacenar la ruta que se guardara en disco
+    ImagenescomentariosArchivo = models.CharField(max_length=255)
     ImagenescomentariosComentariosId = models.IntegerField(null=True)
 
 
+# cambiar a ValoracionpostId
 class Valoracionpost(models.Model):
     ValoracionId = models.AutoField(primary_key=True)
     ValoracionNumero = models.SmallIntegerField()
     ValoracionpostUsuarioId = models.IntegerField()
 
 
+# cambiar por ValoracioncomentariosId
 class Valoracioncomentarios(models.Model):
     ValoracionId = models.AutoField(primary_key=True)
     ValoracionNumero = models.SmallIntegerField()
