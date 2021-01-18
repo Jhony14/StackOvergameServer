@@ -225,8 +225,6 @@ def login(request):
             return JsonResponse("Error login", safe=False)
 
 
-
-
 @csrf_exempt
 def SaveFile(request):
     file = request.FILES['uploadedFile']
