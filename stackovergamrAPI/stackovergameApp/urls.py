@@ -8,8 +8,7 @@ urlpatterns = [
     url(r'^tipousuario/$', views.tipousuarioApi),
     url(r'^tipousuario/([0-9]+)$', views.tipousuarioApi),
 
-    url(r'^usuario/$', views.usuarioApi),
-    url(r'^usuario/([0-9]+)$', views.usuarioApi),
+    # usuario deleted :()
 
     url(r'^post/$', views.postApi),
     url(r'^post/([0-9]+)$', views.postApi),
@@ -25,7 +24,7 @@ urlpatterns = [
 
     url(r'^savefile$', views.SaveFile),
 
-    url(r'^login/$', views.login),
+    # login deleted :(
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.contrib.auth.models import User  # maybe
 from stackovergameApp.models import Tipousuario, Usuario, Post, Comentarios, Imagenespost, Imagenescomentarios, Valoracionpost, Valoracioncomentarios
 
 
@@ -11,10 +12,7 @@ class TipousuarioSerializer(serializers.ModelSerializer):
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuario
-        fields = ('UsuarioId', 'UsuarioDni', 'UsuarioNombre', 'UsuarioApellido1',
-                  'UsuarioApellido2', 'UsuarioLogin', 'UsuarioPassword',
-                  'UsuarioEmail', 'UsuarioToken', 'UsuarioValidado',
-                  'UsuarioActivo', 'UsuarioFechaCreacion', 'UsuarioProfilePicture', 'UsuarioTipousuarioId')
+        fields = '__all__'
 
 
 class PostSerializer(serializers.ModelSerializer):

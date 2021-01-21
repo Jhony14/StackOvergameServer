@@ -1,4 +1,11 @@
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import PermissionsMixin
+from django.utils.translation import gettext_lazy as _
+from django.utils import timezone
+
+from .managers import ControladorUsuario
+
 
 # Create your models here.
 
@@ -8,29 +15,29 @@ class Tipousuario(models.Model):
     TipousuarioNombre = models.CharField(max_length=50)
 
 
-class Usuario(models.Model):
-    UsuarioId = models.AutoField(primary_key=True)
-    UsuarioDni = models.CharField(max_length=9)
-    UsuarioNombre = models.CharField(max_length=50)
-    UsuarioApellido1 = models.CharField(max_length=50)
-    UsuarioApellido2 = models.CharField(max_length=50)
-    UsuarioLogin = models.CharField(max_length=50)
-    UsuarioPassword = models.CharField(max_length=512)
-    UsuarioEmail = models.CharField(max_length=255)
-    UsuarioToken = models.CharField(max_length=512)
-    UsuarioValidado = models.BooleanField()
-    UsuarioActivo = models.BooleanField()
-    UsuarioFechaCreacion = models.DateField()
-    # Profile picture para almacenar la ruta que se guardara en disco
-    UsuarioProfilePicture = models.CharField(max_length=255)
-    UsuarioTipousuarioId = models.IntegerField()
+class Usuario(AbstractBaseUser, PermissionsMixin):
+    Correo = models.EmailField(_('correo address'), unique=True)
+    IsStaff = models.BooleanField(default=False)
+    IsActive = models.BooleanField(default=True)
+    FechaCreaccion = models.DateTimeField(default=timezone.now)
+    Nombre = models.CharField(max_length=100)
+    Apellido1 = models.CharField(max_length=100)
+    Apellido2 = models.CharField(max_length=100)
+
+    USERNAME_FIELD = 'Correo'
+    REQUIRED_FIELDS = []
+
+    objects = ControladorUsuario()
+
+    def __str__(self):
+        return self.Correo
 
 
 class Post(models.Model):
     PostId = models.AutoField(primary_key=True)
     PostTitulo = models.CharField(max_length=255)
     PostContenido = models.TextField()
-    PostFechaPublicacion = models.DateField()
+    PostFechaPublicacion = models.DateField(default=timezone.now)
     PostEstado = models.BooleanField()
     PostUsuarioId = models.IntegerField()
     PostValoracionpostId = models.IntegerField()
@@ -48,7 +55,7 @@ class Imagenespost(models.Model):
 class Comentarios(models.Model):
     ComentariosId = models.AutoField(primary_key=True)
     ComentariosContenido = models.TextField()
-    ComentariosFechaComentario = models.DateField()
+    ComentariosFechaComentario = models.DateField(default=timezone.now)
     ComentariosEstado = models.BooleanField()
     ComentariosUsuarioId = models.IntegerField()
     ComentariosPostId = models.IntegerField()

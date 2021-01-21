@@ -30,6 +30,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'stackovergameApp.Usuario'
 
 # Application definition
 
@@ -43,7 +44,6 @@ INSTALLED_APPS = [
     'corsheaders',
     'stackovergameApp.apps.StackovergameappConfig',
     'rest_framework'
-
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True

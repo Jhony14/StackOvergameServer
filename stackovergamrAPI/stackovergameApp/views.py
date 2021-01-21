@@ -214,18 +214,6 @@ def valoracioncomentariosApi(request, id=0):
 
 
 @csrf_exempt
-def login(request):
-    if request.method == 'POST':
-        user = JSONParser().parse(request)
-        try:
-            userdetails = Usuario.objects.get(
-                UsuarioLogin=user['UsuarioLogin'], UsuarioPassword=user['UsuarioPassword'])
-            return JsonResponse("Login", safe=False)
-        except Usuario.DoesNotExist:
-            return JsonResponse("Error login", safe=False)
-
-
-@csrf_exempt
 def SaveFile(request):
     file = request.FILES['uploadedFile']
     file_name = default_storage.save(file.name, file)
