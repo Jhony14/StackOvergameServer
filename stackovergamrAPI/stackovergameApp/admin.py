@@ -11,16 +11,16 @@ class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = Usuario
-    list_display = ('Correo', 'IsStaff', 'IsActive',)
-    list_filter = ('Correo', 'IsStaff', 'IsActive',)
+    list_display = ('Correo', 'is_staff', 'is_active',)
+    list_filter = ('Correo', 'is_staff', 'is_active',)
     fieldsets = (
         (None, {'fields': ('Correo', 'password')}),
-        ('Permissions', {'fields': ('IsStaff', 'IsActive')}),
+        ('Permissions', {'fields': ('is_staff', 'is_active')}),
     )
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('Correo', 'password1', 'password2', 'IsStaff', 'IsActive')}
+            'fields': ('Correo', 'password1', 'password2', 'is_staff', 'is_active')}
          ),
     )
     search_fields = ('Correo',)

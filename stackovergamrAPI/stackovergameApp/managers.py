@@ -13,12 +13,12 @@ class ControladorUsuario(BaseUserManager):
         return user
 
     def create_superuser(self, Correo, password, **extra_fields):
-        extra_fields.setdefault('IsStaff', True)
+        extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('IsActive', True)
+        extra_fields.setdefault('is_active', True)
 
-        if extra_fields.get('IsStaff') is not True:
-            raise ValueError(_('Superuser must have IsStaff=True.'))
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError(_('Superuser must have is_staff=True.'))
         if extra_fields.get('is_superuser') is not True:
             raise ValueError(_('Superuser must have is_superuser=True.'))
         return self.create_user(Correo, password, **extra_fields)

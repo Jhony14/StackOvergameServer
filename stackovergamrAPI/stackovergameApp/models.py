@@ -17,12 +17,14 @@ class Tipousuario(models.Model):
 
 class Usuario(AbstractBaseUser, PermissionsMixin):
     Correo = models.EmailField(_('correo address'), unique=True)
-    IsStaff = models.BooleanField(default=False)
-    IsActive = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     FechaCreaccion = models.DateTimeField(default=timezone.now)
     Nombre = models.CharField(max_length=100)
     Apellido1 = models.CharField(max_length=100)
     Apellido2 = models.CharField(max_length=100)
+    Imagenperfil = models.TextField(max_length=250, null=True)
+    TipousuarioId = models.IntegerField(default=2)
 
     USERNAME_FIELD = 'Correo'
     REQUIRED_FIELDS = []

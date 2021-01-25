@@ -9,8 +9,8 @@ class UsersManagersTests(TestCase):
         user = User.objects.create_user(
             Correo='normal@user.com', password='foo')
         self.assertEqual(user.Correo, 'normal@user.com')
-        self.assertTrue(user.IsActive)
-        self.assertFalse(user.IsStaff)
+        self.assertTrue(user.is_active)
+        self.assertFalse(user.is_staff)
         self.assertFalse(user.is_superuser)
         try:
             self.assertIsNone(user.username)
@@ -27,8 +27,8 @@ class UsersManagersTests(TestCase):
         User = get_user_model()
         admin_user = User.objects.create_superuser('super@user.com', 'foo')
         self.assertEqual(admin_user.Correo, 'super@user.com')
-        self.assertTrue(admin_user.IsActive)
-        self.assertTrue(admin_user.IsStaff)
+        self.assertTrue(admin_user.is_active)
+        self.assertTrue(admin_user.is_staff)
         self.assertTrue(admin_user.is_superuser)
         try:
             self.assertIsNone(admin_user.username)

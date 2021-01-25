@@ -10,6 +10,9 @@ urlpatterns = [
 
     # usuario deleted :()
 
+    url(r'^usuario/$', views.usuarioApi),
+    url(r'^usuario/([0-9]+)$', views.usuarioApi),
+
     url(r'^post/$', views.postApi),
     url(r'^post/([0-9]+)$', views.postApi),
 
@@ -26,5 +29,9 @@ urlpatterns = [
 
     # login deleted :(
 
+    url(r'^accounts/login/$', views.login),
+    url(r'^accounts/logout/$', views.logout),
+
+    url(r'^check/$', views.check),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
