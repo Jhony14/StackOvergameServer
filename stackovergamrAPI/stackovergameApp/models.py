@@ -24,7 +24,6 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     Apellido1 = models.CharField(max_length=100)
     Apellido2 = models.CharField(max_length=100)
     Imagenperfil = models.TextField(max_length=250, null=True)
-    TipousuarioId = models.IntegerField(default=2)
 
     USERNAME_FIELD = 'Correo'
     REQUIRED_FIELDS = []

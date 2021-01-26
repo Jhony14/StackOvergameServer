@@ -228,6 +228,9 @@ def login(request):
     username = usuario_data['Correo']
     password = usuario_data['password']
     user = auth.authenticate(Correo=username, password=password)
+    print(username)
+    print(password)
+    print(user)
     if user is not None:
         print("estoy aqui uwu")
         auth.login(request, user)
@@ -239,7 +242,6 @@ def login(request):
 
 @csrf_exempt
 def logout(request):
-
     if request.user.is_authenticated:
         auth.logout(request)
         return JsonResponse("Logout correcto uwu", safe=False, status=401)
