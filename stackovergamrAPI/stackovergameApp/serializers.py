@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User  # maybe
-from stackovergameApp.models import Tipousuario, Usuario, Post, Comentarios, Imagenespost, Imagenescomentarios, Valoracionpost, Valoracioncomentarios
+from stackovergameApp.models import Pruebas, Tipousuario, Usuario, Post, Comentarios, Imagenespost, Imagenescomentarios, Valoracionpost, Valoracioncomentarios
 
 
 class TipousuarioSerializer(serializers.ModelSerializer):
@@ -13,6 +12,19 @@ class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuario
         fields = '__all__'
+
+
+class PruebasSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Pruebas
+        fields = '__all__'
+
+
+class UsuarioUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Usuario
+        fields = ('id', 'Nombre', 'Apellido1',
+                  'Apellido2', 'Correo', 'Imagenperfil')
 
 
 class PostSerializer(serializers.ModelSerializer):

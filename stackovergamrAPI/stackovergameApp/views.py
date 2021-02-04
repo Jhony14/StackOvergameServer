@@ -4,8 +4,8 @@ from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 from django.contrib import auth
 
-from stackovergameApp.models import Tipousuario, Usuario, Post, Comentarios, Imagenespost, Imagenescomentarios, Valoracionpost, Valoracioncomentarios
-from stackovergameApp.serializers import TipousuarioSerializer, UsuarioSerializer, PostSerializer, ComentariosSerializer, ImagenespostSerializer, ImagenescomentariosSerializer, ValoracionpostSerializer, ValoracioncomentariosSerializer
+from stackovergameApp.models import Pruebas, Tipousuario, Usuario, Post, Comentarios, Imagenespost, Imagenescomentarios, Valoracionpost, Valoracioncomentarios
+from stackovergameApp.serializers import PruebasSerializer, TipousuarioSerializer, UsuarioSerializer, UsuarioUpdateSerializer, PostSerializer, ComentariosSerializer, ImagenespostSerializer, ImagenescomentariosSerializer, ValoracionpostSerializer, ValoracioncomentariosSerializer
 
 from django.core.files.storage import default_storage
 
@@ -47,10 +47,10 @@ def tipousuarioApi(request, id=0):
 
 @csrf_exempt
 def usuarioApi(request, id=0):
-    if request.method == 'GET':
-        usuario = Usuario.objects.all()
-        usuario_serializer = UsuarioSerializer(usuario, many=True)
 
+    if request.method == 'GET':
+        usuario = Usuario.objects.all().filter(id=id)
+        usuario_serializer = UsuarioSerializer(usuario, many=True)
         return JsonResponse(usuario_serializer.data, safe=False)
 
     elif request.method == 'POST':
@@ -65,8 +65,8 @@ def usuarioApi(request, id=0):
     elif request.method == 'PUT':
         usuario_data = JSONParser().parse(request)
         usuario = Usuario.objects.get(
-            UsuarioId=usuario_data['UsuarioId'])
-        usuario_serializer = UsuarioSerializer(
+            id=usuario_data['id'])
+        usuario_serializer = UsuarioUpdateSerializer(
             usuario, data=usuario_data)
         if usuario_serializer.is_valid():
             usuario_serializer.save()
@@ -74,9 +74,17 @@ def usuarioApi(request, id=0):
         return JsonResponse("Failed to update usuario", safe=False)
 
     elif request.method == 'DELETE':
-        usuario = Usuario.objects.get(UsuarioId=id)
+        usuario = Usuario.objects.get(id=id)
         usuario.delete()
         return JsonResponse("Delete usuario", safe=False)
+
+
+@csrf_exempt
+def usuarioAllApi(request):
+    if request.method == 'GET':
+        usuario = Usuario.objects.all()
+        usuario_serializer = UsuarioSerializer(usuario, many=True)
+        return JsonResponse(usuario_serializer.data, safe=False)
 
 
 @csrf_exempt
@@ -228,28 +236,24 @@ def login(request):
     username = usuario_data['Correo']
     password = usuario_data['password']
     user = auth.authenticate(Correo=username, password=password)
-    print(username)
-    print(password)
-    print(user)
     if user is not None:
-        print("estoy aqui uwu")
         auth.login(request, user)
         return JsonResponse("Login correcto ", safe=False)
     else:
-        print("estoy aqui owo")
         return JsonResponse("Error login uwu", safe=False, status=401)
 
 
 @csrf_exempt
 def logout(request):
-    if request.user.is_authenticated:
-        auth.logout(request)
-        return JsonResponse("Logout correcto uwu", safe=False, status=401)
-    else:
-        return JsonResponse("No logout owo", safe=False, status=405)
+    auth.logout(request)
+    return JsonResponse("Logout correcto uwu", safe=False, status=401)
 
 
 def SaveFile(request):
     file = request.FILES['uploadedFile']
     file_name = default_storage.save(file.name, file)
     return JsonResponse(file_name, safe=False)
+
+
+def index(request, path=''):
+    return render(request, 'index.html')

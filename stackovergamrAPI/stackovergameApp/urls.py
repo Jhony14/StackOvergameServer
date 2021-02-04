@@ -4,14 +4,15 @@ from stackovergameApp import views
 from django.conf.urls.static import static
 from django.conf import settings
 
+from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
+
 urlpatterns = [
     url(r'^tipousuario/$', views.tipousuarioApi),
     url(r'^tipousuario/([0-9]+)$', views.tipousuarioApi),
 
-    # usuario deleted :()
-
-    url(r'^usuario/$', views.usuarioApi),
     url(r'^usuario/([0-9]+)$', views.usuarioApi),
+
+    url(r'^usuarioAll/$', views.usuarioAllApi),
 
     url(r'^post/$', views.postApi),
     url(r'^post/([0-9]+)$', views.postApi),
@@ -27,11 +28,12 @@ urlpatterns = [
 
     url(r'^savefile$', views.SaveFile),
 
-    # login deleted :(
-
     url(r'^accounts/login/$', views.login),
     url(r'^accounts/logout/$', views.logout),
 
     url(r'^check/$', views.check),
+
+    url(r'api-token-auth/', obtain_jwt_token),
+    url(r'api-token-refresh/', refresh_jwt_token),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

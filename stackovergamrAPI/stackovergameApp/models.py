@@ -15,6 +15,12 @@ class Tipousuario(models.Model):
     TipousuarioNombre = models.CharField(max_length=50)
 
 
+class Pruebas(models.Model):
+    Id = models.AutoField(primary_key=True)
+    Name = models.CharField(max_length=150)
+    image = models.ImageField(upload_to='uploads/')
+
+
 class Usuario(AbstractBaseUser, PermissionsMixin):
     Correo = models.EmailField(_('correo address'), unique=True)
     is_staff = models.BooleanField(default=False)
@@ -72,15 +78,13 @@ class Imagenescomentarios(models.Model):
     ImagenescomentariosComentariosId = models.IntegerField(null=True)
 
 
-# cambiar a ValoracionpostId
 class Valoracionpost(models.Model):
-    ValoracionId = models.AutoField(primary_key=True)
-    ValoracionNumero = models.SmallIntegerField()
+    ValoracionpostId = models.AutoField(primary_key=True)
+    ValoracionpostNumero = models.SmallIntegerField()
     ValoracionpostUsuarioId = models.IntegerField()
 
 
-# cambiar por ValoracioncomentariosId
 class Valoracioncomentarios(models.Model):
-    ValoracionId = models.AutoField(primary_key=True)
-    ValoracionNumero = models.SmallIntegerField()
+    ValoraciValoracioncomentariosIdonId = models.AutoField(primary_key=True)
+    ValoracioncomentariosNumero = models.SmallIntegerField()
     ValoracioncomentariosUsuarioId = models.IntegerField()
