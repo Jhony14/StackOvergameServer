@@ -34,6 +34,12 @@ class PostSerializer(serializers.ModelSerializer):
                   'PostEstado', 'PostUsuarioId', 'PostValoracionpostId')
 
 
+class PostListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = ('PostId', 'PostTitulo', 'PostFechaPublicacion')
+
+
 class ComentariosSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comentarios

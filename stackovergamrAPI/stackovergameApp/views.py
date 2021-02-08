@@ -5,7 +5,7 @@ from django.http.response import JsonResponse
 from django.contrib import auth
 
 from stackovergameApp.models import Pruebas, Tipousuario, Usuario, Post, Comentarios, Imagenespost, Imagenescomentarios, Valoracionpost, Valoracioncomentarios
-from stackovergameApp.serializers import PruebasSerializer, TipousuarioSerializer, UsuarioSerializer, UsuarioUpdateSerializer, PostSerializer, ComentariosSerializer, ImagenespostSerializer, ImagenescomentariosSerializer, ValoracionpostSerializer, ValoracioncomentariosSerializer
+from stackovergameApp.serializers import PruebasSerializer, TipousuarioSerializer, UsuarioSerializer, UsuarioUpdateSerializer, PostSerializer, PostListSerializer, ComentariosSerializer, ImagenespostSerializer, ImagenescomentariosSerializer, ValoracionpostSerializer, ValoracioncomentariosSerializer
 
 from django.core.files.storage import default_storage
 
@@ -50,7 +50,7 @@ def usuarioApi(request, id=0):
 
     if request.method == 'GET':
         usuario = Usuario.objects.all().filter(id=id)
-        usuario_serializer = UsuarioSerializer(usuario, many=True)
+        usuario_serializer = UsuarioUpdateSerializer(usuario, many=True)
         return JsonResponse(usuario_serializer.data, safe=False)
 
     elif request.method == 'POST':
@@ -88,9 +88,16 @@ def usuarioAllApi(request):
 
 
 @csrf_exempt
-def postApi(request, id=0):
+def postListApi(request, id=0):
     if request.method == 'GET':
         post = Post.objects.all()
+        post_serializer = PostListSerializer(post, many=True)
+        return JsonResponse(post_serializer.data, safe=False)
+
+@csrf_exempt
+def postApi(request, id=0):
+    if request.method == 'GET':
+        post = Post.objects.all().filter(PostId=id)
         post_serializer = PostSerializer(post, many=True)
         return JsonResponse(post_serializer.data, safe=False)
 

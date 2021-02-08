@@ -17,6 +17,8 @@ urlpatterns = [
     url(r'^post/$', views.postApi),
     url(r'^post/([0-9]+)$', views.postApi),
 
+    url(r'^postList/$', views.postListApi),
+
     url(r'^comentarios/$', views.comentariosApi),
     url(r'^comentarios/([0-9]+)$', views.comentariosApi),
 
