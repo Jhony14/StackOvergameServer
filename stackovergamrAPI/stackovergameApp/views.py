@@ -1,15 +1,35 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import action
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 from django.contrib import auth
+from rest_framework import generics
+from rest_framework.permissions import AllowAny
 
 from stackovergameApp.models import Pruebas, Tipousuario, Usuario, Post, Comentarios, Imagenespost, Imagenescomentarios, Valoracionpost, Valoracioncomentarios
-from stackovergameApp.serializers import PruebasSerializer, TipousuarioSerializer, UsuarioSerializer, UsuarioUpdateSerializer, PostSerializer, PostListSerializer, ComentariosSerializer, ImagenespostSerializer, ImagenescomentariosSerializer, ValoracionpostSerializer, ValoracioncomentariosSerializer
+from stackovergameApp.serializers import PruebasSerializer, UserSignUpSerializer, TipousuarioSerializer, UsuarioSerializer, UsuarioUpdateSerializer, PostSerializer, PostListSerializer, ComentariosSerializer, ImagenespostSerializer, ImagenescomentariosSerializer, ValoracionpostSerializer, ValoracioncomentariosSerializer
 
 from django.core.files.storage import default_storage
 
 # Create your views here.
+
+
+@csrf_exempt
+def prueba(request):
+    if request.method == 'GET':
+        prueba = Pruebas.objects.all()
+        prueba_serializar = PruebasSerializer(prueba, many=True)
+        return JsonResponse(prueba_serializar.data, safe=False)
+
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        prueba_serializar = PruebasSerializer(data=data)
+        print(prueba_serializar)
+        if prueba_serializar.is_valid():
+            prueba_serializar.save()
+            return JsonResponse("Add ", safe=False)
+        return JsonResponse("Failed", safe=False)
 
 
 @csrf_exempt
@@ -46,6 +66,17 @@ def tipousuarioApi(request, id=0):
 
 
 @csrf_exempt
+@action(detail=False, methods=['post'])
+def signup(request):
+    """User sign up."""
+    serializer = UserSignUpSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    user = serializer.save()
+    data = UserModelSerializer(user).data
+    return Response(data, status=status.HTTP_201_CREATED)
+
+
+@csrf_exempt
 def usuarioApi(request, id=0):
 
     if request.method == 'GET':
@@ -55,7 +86,7 @@ def usuarioApi(request, id=0):
 
     elif request.method == 'POST':
         usuario_data = JSONParser().parse(request)
-        usuario_serializer = UsuarioSerializer(
+        usuario_serializer = UsuarioUpdateSerializer(
             data=usuario_data)
         if usuario_serializer.is_valid():
             usuario_serializer.save()
@@ -94,11 +125,13 @@ def postListApi(request, id=0):
         post_serializer = PostListSerializer(post, many=True)
         return JsonResponse(post_serializer.data, safe=False)
 
+
 @csrf_exempt
 def postApi(request, id=0):
     if request.method == 'GET':
         post = Post.objects.all().filter(PostId=id)
         post_serializer = PostSerializer(post, many=True)
+        print(post_serializer.data)
         return JsonResponse(post_serializer.data, safe=False)
 
     elif request.method == 'POST':
@@ -130,7 +163,7 @@ def postApi(request, id=0):
 @csrf_exempt
 def comentariosApi(request, id=0):
     if request.method == 'GET':
-        comentarios = Comentarios.objects.all()
+        comentarios = Comentarios.objects.all().filter(ComentariosPostId=id)
         comentarios_serializer = ComentariosSerializer(comentarios, many=True)
         return JsonResponse(comentarios_serializer.data, safe=False)
 

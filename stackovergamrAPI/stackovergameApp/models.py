@@ -29,7 +29,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     Nombre = models.CharField(max_length=100)
     Apellido1 = models.CharField(max_length=100)
     Apellido2 = models.CharField(max_length=100)
-    Imagenperfil = models.TextField(max_length=250, null=True)
+    Imagenperfil = models.ImageField(upload_to='UserProfile/')
 
     USERNAME_FIELD = 'Correo'
     REQUIRED_FIELDS = []
@@ -40,14 +40,21 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
         return self.Correo
 
 
+class Valoracionpost(models.Model):
+    ValoracionpostId = models.AutoField(primary_key=True)
+    ValoracionpostNumero = models.SmallIntegerField()
+    ValoracionpostUsuarioId = models.IntegerField()
+
+
 class Post(models.Model):
     PostId = models.AutoField(primary_key=True)
     PostTitulo = models.CharField(max_length=255)
     PostContenido = models.TextField()
     PostFechaPublicacion = models.DateField(default=timezone.now)
     PostEstado = models.BooleanField()
-    PostUsuarioId = models.IntegerField()
-    PostValoracionpostId = models.IntegerField()
+    PostUsuarioId = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    PostValoracionpostId = models.ForeignKey(
+        Valoracionpost, on_delete=models.CASCADE, null=True)
 
 
 class Imagenespost(models.Model):
@@ -76,12 +83,6 @@ class Imagenescomentarios(models.Model):
     # para almacenar la ruta que se guardara en disco
     ImagenescomentariosArchivo = models.CharField(max_length=255)
     ImagenescomentariosComentariosId = models.IntegerField(null=True)
-
-
-class Valoracionpost(models.Model):
-    ValoracionpostId = models.AutoField(primary_key=True)
-    ValoracionpostNumero = models.SmallIntegerField()
-    ValoracionpostUsuarioId = models.IntegerField()
 
 
 class Valoracioncomentarios(models.Model):

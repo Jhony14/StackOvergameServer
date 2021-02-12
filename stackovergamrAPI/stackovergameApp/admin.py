@@ -11,8 +11,10 @@ class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = Usuario
-    list_display = ('Correo', 'is_staff', 'is_active',)
-    list_filter = ('Correo', 'is_staff', 'is_active',)
+    list_display = ('Correo', 'is_staff', 'is_active', 'Nombre',
+                    'Apellido1', 'Apellido2', 'Imagenperfil')
+    list_filter = ('Correo', 'is_staff', 'is_active', 'Nombre',
+                   'Apellido1', 'Apellido2', 'Imagenperfil')
     fieldsets = (
         (None, {'fields': ('Correo', 'password')}),
         ('Permissions', {'fields': ('is_staff', 'is_active')}),
@@ -20,7 +22,7 @@ class CustomUserAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('Correo', 'password1', 'password2', 'is_staff', 'is_active')}
+            'fields': ('Correo', 'password1', 'password2', 'Nombre', 'Apellido1', 'Apellido2', 'Imagenperfil', 'is_staff', 'is_active')}
          ),
     )
     search_fields = ('Correo',)
