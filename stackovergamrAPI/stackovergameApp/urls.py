@@ -1,12 +1,20 @@
+from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
 from django.conf.urls import url
 from stackovergameApp import views
+from django.urls import include, path
+
+from rest_framework import routers
 
 from django.conf.urls.static import static
 from django.conf import settings
 
-from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
+router = routers.DefaultRouter()
+router.register(r'users', views.UserViewSet)
+
 
 urlpatterns = [
+    url(r'^', include(router.urls)),
+
     url(r'^tipousuario/$', views.tipousuarioApi),
     url(r'^tipousuario/([0-9]+)$', views.tipousuarioApi),
 

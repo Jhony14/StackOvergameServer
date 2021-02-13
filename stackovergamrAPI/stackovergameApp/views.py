@@ -6,9 +6,11 @@ from django.http.response import JsonResponse
 from django.contrib import auth
 from rest_framework import generics
 from rest_framework.permissions import AllowAny
+from rest_framework import viewsets
+from rest_framework import permissions
 
 from stackovergameApp.models import Pruebas, Tipousuario, Usuario, Post, Comentarios, Imagenespost, Imagenescomentarios, Valoracionpost, Valoracioncomentarios
-from stackovergameApp.serializers import PruebasSerializer, UserSignUpSerializer, TipousuarioSerializer, UsuarioSerializer, UsuarioUpdateSerializer, PostSerializer, PostListSerializer, ComentariosSerializer, ImagenespostSerializer, ImagenescomentariosSerializer, ValoracionpostSerializer, ValoracioncomentariosSerializer
+from stackovergameApp.serializers import PruebasSerializer, UserSerializer, UserSignUpSerializer, TipousuarioSerializer, UsuarioSerializer, UsuarioUpdateSerializer, PostSerializer, PostListSerializer, ComentariosSerializer, ImagenespostSerializer, ImagenescomentariosSerializer, ValoracionpostSerializer, ValoracioncomentariosSerializer
 
 from django.core.files.storage import default_storage
 
@@ -30,6 +32,15 @@ def prueba(request):
             prueba_serializar.save()
             return JsonResponse("Add ", safe=False)
         return JsonResponse("Failed", safe=False)
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = Usuario.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.AllowAny]
 
 
 @csrf_exempt

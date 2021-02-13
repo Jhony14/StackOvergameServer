@@ -93,6 +93,13 @@ class UsuarioUpdateSerializer(serializers.ModelSerializer):
                   'Apellido2', 'Correo', 'Imagenperfil')
 
 
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Usuario
+        fields = ('Correo', 'password', 'Nombre',
+                  'Apellido1', 'Apellido2', 'Imagenperfil')
+
+
 class PostSerializer(serializers.ModelSerializer):
 
     class Meta:

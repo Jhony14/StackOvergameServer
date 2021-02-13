@@ -39,6 +39,8 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.Correo
 
+# cambiar id con post
+
 
 class Valoracionpost(models.Model):
     ValoracionpostId = models.AutoField(primary_key=True)
