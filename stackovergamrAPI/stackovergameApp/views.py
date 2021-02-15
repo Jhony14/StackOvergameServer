@@ -8,9 +8,10 @@ from rest_framework import generics
 from rest_framework.permissions import AllowAny
 from rest_framework import viewsets
 from rest_framework import permissions
+from django.contrib.auth import get_user_model
 
 from stackovergameApp.models import Pruebas, Tipousuario, Usuario, Post, Comentarios, Imagenespost, Imagenescomentarios, Valoracionpost, Valoracioncomentarios
-from stackovergameApp.serializers import PruebasSerializer, UserSerializer, UserSignUpSerializer, TipousuarioSerializer, UsuarioSerializer, UsuarioUpdateSerializer, PostSerializer, PostListSerializer, ComentariosSerializer, ImagenespostSerializer, ImagenescomentariosSerializer, ValoracionpostSerializer, ValoracioncomentariosSerializer
+from stackovergameApp.serializers import PruebasSerializer, UserSerializer, UserSignUpSerializer, TipousuarioSerializer, UsuarioSerializer, UsuarioUpdateSerializer, PostAddEditSerializer, PostSerializer, PostListSerializer, ComentariosSerializer, ImagenespostSerializer, ImagenescomentariosSerializer, ValoracionpostSerializer, ValoracioncomentariosSerializer
 
 from django.core.files.storage import default_storage
 
@@ -41,6 +42,16 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = Usuario.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny]
+
+
+@csrf_exempt
+def create_user(request):
+    usuario_data = JSONParser().parse(request)
+    User = get_user_model()
+    print(usuario_data['password'])
+    user = User.objects.create_user(
+        usuario_data['Correo'], usuario_data['password'], usuario_data['Nombre'], usuario_data['Apellido1'], usuario_data['Apellido2'], usuario_data['Imagenperfil'])
+    return JsonResponse("create", safe=False)
 
 
 @csrf_exempt
@@ -142,12 +153,11 @@ def postApi(request, id=0):
     if request.method == 'GET':
         post = Post.objects.all().filter(PostId=id)
         post_serializer = PostSerializer(post, many=True)
-        print(post_serializer.data)
         return JsonResponse(post_serializer.data, safe=False)
 
     elif request.method == 'POST':
         post_data = JSONParser().parse(request)
-        post_serializer = PostSerializer(
+        post_serializer = PostAddEditSerializer(
             data=post_data)
         if post_serializer.is_valid():
             post_serializer.save()
@@ -158,7 +168,7 @@ def postApi(request, id=0):
         post_data = JSONParser().parse(request)
         post = Post.objects.get(
             PostId=post_data['PostId'])
-        post_serializer = PostSerializer(
+        post_serializer = PostAddEditSerializer(
             post, data=post_data)
         if post_serializer.is_valid():
             post_serializer.save()

@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
+from django.contrib.auth import get_user_model
 
 from .managers import ControladorUsuario
 
@@ -29,7 +30,8 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     Nombre = models.CharField(max_length=100)
     Apellido1 = models.CharField(max_length=100)
     Apellido2 = models.CharField(max_length=100)
-    Imagenperfil = models.ImageField(upload_to='UserProfile/')
+    Imagenperfil = models.ImageField(
+        null=True, blank=True, upload_to='UserProfile/')
 
     USERNAME_FIELD = 'Correo'
     REQUIRED_FIELDS = []
@@ -53,7 +55,7 @@ class Post(models.Model):
     PostTitulo = models.CharField(max_length=255)
     PostContenido = models.TextField()
     PostFechaPublicacion = models.DateField(default=timezone.now)
-    PostEstado = models.BooleanField()
+    PostEstado = models.BooleanField(default=True)
     PostUsuarioId = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     PostValoracionpostId = models.ForeignKey(
         Valoracionpost, on_delete=models.CASCADE, null=True)
@@ -72,10 +74,10 @@ class Comentarios(models.Model):
     ComentariosId = models.AutoField(primary_key=True)
     ComentariosContenido = models.TextField()
     ComentariosFechaComentario = models.DateField(default=timezone.now)
-    ComentariosEstado = models.BooleanField()
+    ComentariosEstado = models.BooleanField(default=True)
     ComentariosUsuarioId = models.IntegerField()
     ComentariosPostId = models.IntegerField()
-    ComentariosValoracioncomentariosId = models.IntegerField()
+    ComentariosValoracioncomentariosId = models.IntegerField(null=True)
 
 
 class Imagenescomentarios(models.Model):

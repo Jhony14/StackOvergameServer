@@ -101,17 +101,23 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Post
         fields = ('PostId', 'PostTitulo', 'PostContenido', 'PostFechaPublicacion',
                   'PostEstado', 'PostUsuarioId', 'PostValoracionpostId')
 
 
+class PostAddEditSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = ('PostId', 'PostTitulo', 'PostContenido', 'PostUsuarioId')
+
+
 class PostListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ('PostId', 'PostTitulo', 'PostFechaPublicacion')
+        fields = ('PostId', 'PostTitulo', 'PostContenido',
+                  'PostFechaPublicacion', 'PostUsuarioId')
 
 
 class ComentariosSerializer(serializers.ModelSerializer):

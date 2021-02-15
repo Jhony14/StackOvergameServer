@@ -3,11 +3,12 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class ControladorUsuario(BaseUserManager):
-    def create_user(self, Correo, password, **extra_fields):
+    def create_user(self, Correo, password, Nombre, Apellido1, Apellido2, Imagenperfil, **extra_fields):
         if not Correo:
             raise ValueError(_('The Correo must be set'))
         Correo = self.normalize_email(Correo)
-        user = self.model(Correo=Correo, **extra_fields)
+        user = self.model(Correo=Correo, Nombre=Nombre, Apellido1=Apellido1,
+                          Apellido2=Apellido2, Imagenperfil=Imagenperfil, **extra_fields)
         user.set_password(password)
         user.save()
         return user
