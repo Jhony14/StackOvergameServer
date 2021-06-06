@@ -26,6 +26,14 @@ urlpatterns = [
     url(r'^post/([0-9]+)$', views.postApi),
     url(r'^postList/$', views.postListApi),
 
+    url(r'^guide/$', views.guideApi),
+    url(r'^guide/([0-9]+)$', views.guideApi),
+    url(r'^guideList/$', views.guideListApi),
+
+    url(r'^news/$', views.newsApi),
+    url(r'^news/([0-9]+)$', views.newsApi),
+    url(r'^newsList/$', views.newsListApi),
+
     url(r'^comentarios/$', views.comentariosApi),
     url(r'^comentarios/([0-9]+)$', views.comentariosApi),
 

@@ -6,7 +6,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.validators import UniqueValidator
 
 
-from stackovergameApp.models import Pruebas, Tipousuario, Usuario, Post, Comentarios, Imagenespost, Imagenescomentarios, Valoracionpost, Valoracioncomentarios
+from stackovergameApp.models import Guide, News, Pruebas, Tipousuario, Usuario, Post, Comentarios, Imagenespost, Imagenescomentarios, Valoracionpost, Valoracioncomentarios
 
 
 class UserSignUpSerializer(serializers.Serializer):
@@ -77,6 +77,18 @@ class TipousuarioSerializer(serializers.ModelSerializer):
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuario
+        fields = '__all__'
+
+
+class GuideSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Guide
+        fields = '__all__'
+
+
+class NewsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = News
         fields = '__all__'
 
 

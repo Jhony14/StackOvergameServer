@@ -10,8 +10,8 @@ from rest_framework import viewsets
 from rest_framework import permissions
 from django.contrib.auth import get_user_model
 
-from stackovergameApp.models import Pruebas, Tipousuario, Usuario, Post, Comentarios, Imagenespost, Imagenescomentarios, Valoracionpost, Valoracioncomentarios
-from stackovergameApp.serializers import PruebasSerializer, UserSerializer, UserSignUpSerializer, TipousuarioSerializer, UsuarioSerializer, UsuarioUpdateSerializer, PostAddEditSerializer, PostSerializer, PostListSerializer, ComentariosSerializer, ImagenespostSerializer, ImagenescomentariosSerializer, ValoracionpostSerializer, ValoracioncomentariosSerializer
+from stackovergameApp.models import Guide, News, Pruebas, Tipousuario, Usuario, Post, Comentarios, Imagenespost, Imagenescomentarios, Valoracionpost, Valoracioncomentarios
+from stackovergameApp.serializers import GuideSerializer, NewsSerializer, PruebasSerializer, UserSerializer, UserSignUpSerializer, TipousuarioSerializer, UsuarioSerializer, UsuarioUpdateSerializer, PostAddEditSerializer, PostSerializer, PostListSerializer, ComentariosSerializer, ImagenespostSerializer, ImagenescomentariosSerializer, ValoracionpostSerializer, ValoracioncomentariosSerializer
 
 from django.core.files.storage import default_storage
 
@@ -179,6 +179,83 @@ def postApi(request, id=0):
         post = Post.objects.get(PostId=id)
         post.delete()
         return JsonResponse("Delete post", safe=False)
+
+
+@csrf_exempt
+def guideListApi(request, id=0):
+    if request.method == 'GET':
+        guide = Guide.objects.all()
+        guide_serializer = GuideSerializer(guide, many=True)
+        return JsonResponse(guide_serializer.data, safe=False)
+
+
+@csrf_exempt
+def guideApi(request, id=0):
+    if request.method == 'GET':
+        guide = Guide.objects.all().filter(GuideId=id)
+        guide_serializer = GuideSerializer(guide, many=True)
+        return JsonResponse(guide_serializer.data, safe=False)
+
+    elif request.method == 'POST':
+        guide_data = JSONParser().parse(request)
+        guide_serializer = GuideSerializer(data=guide_data)
+        if guide_serializer.is_valid():
+            guide_serializer.save()
+            return JsonResponse("Add guide", safe=False)
+        return JsonResponse("Failed to add guide", safe=False)
+
+    elif request.method == 'PUT':
+        guide_data = JSONParser().parse(request)
+        guide = Guide.objects.get(GuideId=guide_data['GuideId'])
+        guide_serializer = GuideSerializer(guide, data=guide_data)
+        if guide_serializer.is_valid():
+            guide_serializer.save()
+            return JsonResponse("Update guide", safe=False)
+        return JsonResponse("Failed to update guide", safe=False)
+
+    elif request.method == 'DELETE':
+        guide = Guide.objects.get(GuideId=id)
+        guide.delete()
+        return JsonResponse("Delete guide", safe=False)
+
+
+@csrf_exempt
+def newsListApi(request, id=0):
+    if request.method == 'GET':
+        news = News.objects.all()
+        news_serializer = NewsSerializer(news, many=True)
+        return JsonResponse(news_serializer.data, safe=False)
+
+
+@csrf_exempt
+def newsApi(request, id=0):
+    if request.method == 'GET':
+        news = News.objects.all().filter(NewsId=id)
+        news_serializer = NewsSerializer(news, many=True)
+        return JsonResponse(news_serializer.data, safe=False)
+
+    elif request.method == 'POST':
+        news_data = JSONParser().parse(request)
+        news_serializer = NewsSerializer(data=news_data)
+        if news_serializer.is_valid():
+            news_serializer.save()
+            return JsonResponse("Add news", safe=False)
+        return JsonResponse("Failed to add news", safe=False)
+
+    elif request.method == 'PUT':
+        news_data = JSONParser().parse(request)
+        news = News.objects.get(
+            NewsId=news_data['NewsId'])
+        news_serializer = NewsSerializer(news, data=news_data)
+        if news_serializer.is_valid():
+            news_serializer.save()
+            return JsonResponse("Update news", safe=False)
+        return JsonResponse("Failed to update news", safe=False)
+
+    elif request.method == 'DELETE':
+        news = News.objects.get(NewsId=id)
+        news.delete()
+        return JsonResponse("Delete news", safe=False)
 
 
 @csrf_exempt

@@ -30,8 +30,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     Nombre = models.CharField(max_length=100)
     Apellido1 = models.CharField(max_length=100)
     Apellido2 = models.CharField(max_length=100)
-    Imagenperfil = models.ImageField(
-        null=True, blank=True, upload_to='UserProfile/')
+    Imagenperfil = models.TextField()
 
     USERNAME_FIELD = 'Correo'
     REQUIRED_FIELDS = []
@@ -66,7 +65,7 @@ class Imagenespost(models.Model):
     ImagenespostNombre = models.CharField(max_length=255)
     ImagenespostTipo = models.CharField(max_length=50)
     # para almacenar la ruta que se guardara en disco
-    ImagenespostArchivo = models.CharField(max_length=255)
+    ImagenespostArchivo = models.TextField()
     ImagenespostPostId = models.IntegerField(null=True)
 
 
@@ -85,7 +84,7 @@ class Imagenescomentarios(models.Model):
     ImagenescomentariosNombre = models.CharField(max_length=255)
     ImagenescomentariosTipo = models.CharField(max_length=50)
     # para almacenar la ruta que se guardara en disco
-    ImagenescomentariosArchivo = models.CharField(max_length=255)
+    ImagenescomentariosArchivo = models.TextField()
     ImagenescomentariosComentariosId = models.IntegerField(null=True)
 
 
@@ -93,3 +92,18 @@ class Valoracioncomentarios(models.Model):
     ValoraciValoracioncomentariosIdonId = models.AutoField(primary_key=True)
     ValoracioncomentariosNumero = models.SmallIntegerField()
     ValoracioncomentariosUsuarioId = models.IntegerField()
+
+
+class Guide(models.Model):
+    GuideId = models.AutoField(primary_key=True)
+    GuideTitulo = models.CharField(max_length=255)
+    GuideContenido = models.TextField()
+    GuideFechaPublicacion = models.DateField(default=timezone.now)
+    GuideEstado = models.BooleanField(default=True)
+
+class News(models.Model):
+    NewsId = models.AutoField(primary_key=True)
+    NewsTitulo = models.CharField(max_length=255)
+    NewsContenido = models.TextField()
+    NewsFechaPublicacion = models.DateField(default=timezone.now)
+    NewsEstado = models.BooleanField(default=True)
